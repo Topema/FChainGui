@@ -6,6 +6,7 @@
 package com.tfg2018.gui.Utils;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.tfg2018.gui.Object.KeyPair;
 
 /**
@@ -13,6 +14,12 @@ import com.tfg2018.gui.Object.KeyPair;
  * @author Tomas
  */
 public class GsonTranslator {
+
+    public static String formatJson(Object value) {
+        final GsonBuilder builder = new GsonBuilder();
+        final Gson gson = builder.create();
+        return gson.toJson(value);
+    }
 
     public static KeyPair getKeys(String keyPair) {
         Gson gson = new Gson();

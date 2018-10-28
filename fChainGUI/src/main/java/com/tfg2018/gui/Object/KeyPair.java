@@ -16,6 +16,10 @@ public class KeyPair {
 	private String pubkey;
 	private String privkey;
 	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+        
+        public KeyPair(String privKey){
+            this.privkey = privKey;
+        }
 	
 	public String getAddress() {
 		return address;
