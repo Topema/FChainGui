@@ -5,9 +5,10 @@
  */
 package com.tfg2018.gui.ApiManager;
 
-import com.tfg2018.gui.RequestObjects.CheckToken;
 import com.tfg2018.gui.RequestObjects.CreateTokenStructure;
+import com.tfg2018.gui.RequestObjects.RequestMessage;
 import com.tfg2018.gui.ResponseObject.KeyPair;
+import com.tfg2018.gui.ResponseObject.ResponseMessage;
 import com.tfg2018.gui.ResponseObject.Token;
 import com.tfg2018.gui.Utils.GlobalVariables;
 import com.tfg2018.gui.Utils.GsonTranslator;
@@ -35,32 +36,42 @@ public class PostOperation {
     private CloseableHttpClient httpclient = HttpClientBuilder.create().build();
 
     public KeyPair validateAddress(KeyPair keys) throws Exception {
-        httppost = new HttpPost(url.concat("validateAddress"));
         StringEntity request = new StringEntity(GsonTranslator.formatJson(keys));
-        String answer = executePostRequest(request);
+        String answer = executePostRequest(request, "validateAddress");
         return GsonTranslator.getKeys(answer);
+    }
+
+    public Token getTokenInfo(RequestMessage tokenName) throws Exception {
+        StringEntity request = new StringEntity(GsonTranslator.formatJson(tokenName));
+        String answer = executePostRequest(request, "getToken");
+        return GsonTranslator.getToken(answer);
     }
 
     public Token generateToken(CreateTokenStructure tokenInfo) throws Exception {
         try {
-            httppost = new HttpPost(url.concat("generateNewToken"));
             StringEntity request = new StringEntity(GsonTranslator.formatJson(tokenInfo));
-            String answer = executePostRequest(request);
+            String answer = executePostRequest(request, "generateNewToken");
             return GsonTranslator.getToken(answer);
         } catch (Exception ex) {
             throw new Exception("Error generando el token");
         }
     }
 
-    public Token getTokenInfo(CheckToken tokenName) throws Exception {
-        httppost = new HttpPost(url.concat("getToken"));
-        StringEntity request = new StringEntity(GsonTranslator.formatJson(tokenName));
-        String answer = executePostRequest(request);
-        return GsonTranslator.getToken(answer);
+    public String getTokenOwner(String token) throws Exception {
+        try {
+            ResponseMessage message = new ResponseMessage();
+            message.setMessage(token);
+            StringEntity request = new StringEntity(GsonTranslator.formatJson(message));
+            String answer = executePostRequest(request, "getTokenOwner");
+            return GsonTranslator.getMessage(answer).getMessage();
+        } catch (Exception ex) {
+            throw new Exception("Error obteniendo dueño del token");
+        }
     }
 
-    private String executePostRequest(StringEntity request) throws Exception {
+    private String executePostRequest(StringEntity request,String operation) throws Exception {
         try {
+            httppost = new HttpPost(url.concat(operation));
             httppost.setEntity(request);
             httppost.setHeader("Content-type", "application/json");
             CloseableHttpResponse response = httpclient.execute(httppost);

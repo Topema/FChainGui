@@ -5,7 +5,7 @@
  */
 package com.tfg2018.gui.ApiManager;
 
-import com.tfg2018.gui.RequestObjects.CheckToken;
+import com.tfg2018.gui.RequestObjects.RequestMessage;
 import com.tfg2018.gui.RequestObjects.CreateTokenStructure;
 import com.tfg2018.gui.ResponseObject.KeyPair;
 import com.tfg2018.gui.ResponseObject.Token;
@@ -70,7 +70,7 @@ public class PostOperationTest {
         try {
             test = post.validateAddress(test);
             assertEquals(keyPair.getAddress(), test.getAddress());
-        } catch (Exception e) {
+        } catch (Exception e)    {
             assert (false);
             throw new Exception(e);
         }
@@ -85,13 +85,31 @@ public class PostOperationTest {
         CreateTokenStructure newToken = new CreateTokenStructure(this.keyPair.getAddress(), randomString(), params);
         try {
             Token response = post.generateToken(newToken);
-            CheckToken check = new CheckToken(response.getName());
+            RequestMessage check = new RequestMessage(response.getName());
             assertEquals(post.getTokenInfo(check).getName(),response.getName());
         } catch (Exception ex) {
             assert(false);
             throw new Exception(ex);
         }
     }
+    
+    @Test
+        public void testGetTokenOwner() throws Exception {
+        System.out.println("getTokenOwner");
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("param1", "param1");
+        params.put("param2", "param2");
+        CreateTokenStructure newToken = new CreateTokenStructure(this.keyPair.getAddress(), randomString(), params);
+        try {
+            Token response = post.generateToken(newToken);
+            String address = post.getTokenOwner(response.getName());
+            assertEquals(address,keyPair.getAddress());
+        } catch (Exception ex) {
+            assert(false);
+            throw new Exception(ex);
+        }
+    }
+    
 
     private String randomString() {
         int length = 32;
