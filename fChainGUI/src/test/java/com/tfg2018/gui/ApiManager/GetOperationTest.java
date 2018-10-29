@@ -5,7 +5,7 @@
  */
 package com.tfg2018.gui.ApiManager;
 
-import com.tfg2018.gui.Object.KeyPair;
+import com.tfg2018.gui.ResponseObject.KeyPair;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -51,6 +51,7 @@ public class GetOperationTest {
             get.getNewKeyPair();
             assert (true);
         } catch (Exception e) {
+            System.out.println(e);
             assert (false);
 
         }

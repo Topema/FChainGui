@@ -5,7 +5,8 @@
  */
 package com.tfg2018.gui.ApiManager;
 
-import com.tfg2018.gui.Object.KeyPair;
+import com.tfg2018.gui.ResponseObject.KeyPair;
+import com.tfg2018.gui.ResponseObject.Token;
 import com.tfg2018.gui.Utils.GlobalVariables;
 import com.tfg2018.gui.Utils.GsonTranslator;
 import java.io.IOException;
@@ -37,8 +38,9 @@ public class GetOperation {
         try {
             CloseableHttpResponse response = httpclient.execute(request);
             HttpEntity entity = response.getEntity();
+            String answer = EntityUtils.toString(entity);
             response.close();
-            return EntityUtils.toString(entity);
+            return answer;
         } catch (IOException ex) {
             throw new Exception("Error durante la solicitud get");
         }
