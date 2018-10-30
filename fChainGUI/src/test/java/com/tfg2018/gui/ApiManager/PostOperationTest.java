@@ -9,6 +9,9 @@ import com.tfg2018.gui.RequestObjects.RequestMessage;
 import com.tfg2018.gui.RequestObjects.CreateTokenStructure;
 import com.tfg2018.gui.ResponseObject.KeyPair;
 import com.tfg2018.gui.ResponseObject.Token;
+import com.tfg2018.gui.factura.Factura;
+import com.tfg2018.gui.factura.InvoiceReader;
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -33,7 +36,7 @@ public class PostOperationTest {
     private final PostOperation post;
     private final KeyPair keyPair;
 
-    public PostOperationTest() throws Exception  {
+    public PostOperationTest() throws Exception {
         this.get = new GetOperation();
         this.post = new PostOperation();
         try {
@@ -70,7 +73,7 @@ public class PostOperationTest {
         try {
             test = post.validateAddress(test);
             assertEquals(keyPair.getAddress(), test.getAddress());
-        } catch (Exception e)    {
+        } catch (Exception e) {
             assert (false);
             throw new Exception(e);
         }
@@ -79,37 +82,38 @@ public class PostOperationTest {
     @Test
     public void testIssueNewToken() throws Exception {
         System.out.println("IssueNewtoken");
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("param1", "param1");
-        params.put("param2", "param2");
-        CreateTokenStructure newToken = new CreateTokenStructure(this.keyPair.getAddress(), randomString(), params);
+        File archivo = new File("sample.xml");
+        InvoiceReader i = new InvoiceReader();
+        Factura result = i.readInvoice(archivo);
+        result.addTokenParameter(randomString(), randomString());
+        CreateTokenStructure newToken = new CreateTokenStructure(this.keyPair.getAddress(), result.getTokenParameters());
+        System.out.println(newToken.getTokenName());
         try {
             Token response = post.generateToken(newToken);
             RequestMessage check = new RequestMessage(response.getName());
-            assertEquals(post.getTokenInfo(check).getName(),response.getName());
+            assertEquals(post.getTokenInfo(check).getName(), response.getName());
         } catch (Exception ex) {
-            assert(false);
-            throw new Exception(ex);
+            assert (false);
+            
         }
     }
-    
+
     @Test
-        public void testGetTokenOwner() throws Exception {
+    public void testGetTokenOwner() throws Exception {
         System.out.println("getTokenOwner");
         Map<String, String> params = new HashMap<String, String>();
-        params.put("param1", "param1");
-        params.put("param2", "param2");
-        CreateTokenStructure newToken = new CreateTokenStructure(this.keyPair.getAddress(), randomString(), params);
+        params.put(randomString(), randomString());
+        params.put(randomString(), randomString());
+        CreateTokenStructure newToken = new CreateTokenStructure(this.keyPair.getAddress(), params);
         try {
             Token response = post.generateToken(newToken);
             String address = post.getTokenOwner(response.getName());
-            assertEquals(address,keyPair.getAddress());
+            assertEquals(address, keyPair.getAddress());
         } catch (Exception ex) {
-            assert(false);
+            assert (false);
             throw new Exception(ex);
         }
     }
-    
 
     private String randomString() {
         int length = 32;
