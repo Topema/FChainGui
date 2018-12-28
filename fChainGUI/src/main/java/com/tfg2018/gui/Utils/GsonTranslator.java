@@ -7,6 +7,7 @@ package com.tfg2018.gui.Utils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.tfg2018.gui.RequestObjects.InstantTransactionStructure;
 import com.tfg2018.gui.RequestObjects.RequestMessage;
 import com.tfg2018.gui.ResponseObject.KeyPair;
 import com.tfg2018.gui.ResponseObject.ResponseMessage;
@@ -37,6 +38,11 @@ public class GsonTranslator {
     public static ResponseMessage getMessage(String message){
         Gson gson = new Gson();
         return gson.fromJson(message, ResponseMessage.class);
+    }
+
+    public static Object getTransaction(String answer) {
+        Gson gson = new Gson();
+        return gson.fromJson(answer, InstantTransactionStructure.class);
     }
 
 }

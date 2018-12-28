@@ -7,6 +7,7 @@ package com.tfg2018.gui.ApiManager;
 
 import com.tfg2018.gui.RequestObjects.RequestMessage;
 import com.tfg2018.gui.RequestObjects.CreateTokenStructure;
+import com.tfg2018.gui.RequestObjects.InstantTransactionStructure;
 import com.tfg2018.gui.ResponseObject.KeyPair;
 import com.tfg2018.gui.ResponseObject.Token;
 import com.tfg2018.gui.factura.Factura;
@@ -16,6 +17,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -35,14 +37,15 @@ public class PostOperationTest {
     private final GetOperation get;
     private final PostOperation post;
     private final KeyPair keyPair;
+    private final KeyPair keyPair2;
 
     public PostOperationTest() throws Exception {
         this.get = new GetOperation();
         this.post = new PostOperation();
         try {
             this.keyPair = this.get.getNewKeyPair();
+            this.keyPair2 = this.get.getNewKeyPair();
         } catch (Exception ex) {
-            System.out.println("wtf");
             throw new Exception(ex);
         }
     }
@@ -87,7 +90,6 @@ public class PostOperationTest {
         Factura result = i.readInvoice(archivo);
         result.addTokenParameter(randomString(), randomString());
         CreateTokenStructure newToken = new CreateTokenStructure(this.keyPair.getAddress(), result.getTokenParameters());
-        System.out.println(newToken.getTokenName());
         try {
             Token response = post.generateToken(newToken);
             RequestMessage check = new RequestMessage(response.getName());
@@ -126,6 +128,29 @@ public class PostOperationTest {
             Token response = post.generateToken(newToken);
             String address = post.getTokenCreator(response.getName());
             assertEquals(address, keyPair.getAddress());
+        } catch (Exception ex) {
+            assert (false);
+            throw new Exception(ex);
+        }
+    }
+    
+    @Test
+    public void testCreateInstantTransaction() throws Exception {
+        System.out.println("Create Instant transaction test");
+        Map<String, String> params = new HashMap<String, String>();
+        params.put(randomString(), randomString());
+        params.put(randomString(), randomString());
+        CreateTokenStructure newToken = new CreateTokenStructure(this.keyPair.getAddress(), params);
+        try {
+            Token response = post.generateToken(newToken);
+            System.out.println(this.keyPair.getAddress());
+            System.out.println(this.keyPair2.getAddress());
+            System.out.println(response.getName());
+            InstantTransactionStructure transaction = new InstantTransactionStructure(keyPair.getAddress(), keyPair.getPrivkey(), keyPair2.getAddress(), response.getName());
+            String responseId = post.createInstantTransaction(transaction);
+            TimeUnit.SECONDS.sleep(20);
+            String address = post.getTokenOwner(response.getName());
+            assertEquals(address, keyPair2.getAddress());
         } catch (Exception ex) {
             assert (false);
             throw new Exception(ex);

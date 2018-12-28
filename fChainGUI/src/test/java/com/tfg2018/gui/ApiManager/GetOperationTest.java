@@ -46,12 +46,10 @@ public class GetOperationTest {
      */
     @Test
     public void testGetNewKeyPair() throws Exception {
-        System.out.println("getNewKeyPair");
         try {
             get.getNewKeyPair();
             assert (true);
         } catch (Exception e) {
-            System.out.println(e);
             assert (false);
 
         }

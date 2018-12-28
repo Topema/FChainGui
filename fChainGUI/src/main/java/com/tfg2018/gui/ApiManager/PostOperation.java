@@ -5,6 +5,7 @@
  */
 package com.tfg2018.gui.ApiManager;
 
+import com.tfg2018.gui.RequestObjects.InstantTransactionStructure;
 import com.tfg2018.gui.RequestObjects.CreateTokenStructure;
 import com.tfg2018.gui.RequestObjects.RequestMessage;
 import com.tfg2018.gui.ResponseObject.KeyPair;
@@ -68,7 +69,7 @@ public class PostOperation {
             throw new Exception("Error obteniendo dueño del token");
         }
     }
-    
+
     public String getTokenCreator(String token) throws Exception {
         try {
             ResponseMessage message = new ResponseMessage();
@@ -77,11 +78,22 @@ public class PostOperation {
             String answer = executePostRequest(request, "getTokenCreator");
             return GsonTranslator.getMessage(answer).getMessage();
         } catch (Exception ex) {
-            throw new Exception("Error obteniendo dueño del token");
+            throw new Exception("Error obteniendo al creador del token");
         }
     }
 
-    private String executePostRequest(StringEntity request,String operation) throws Exception {
+    String createInstantTransaction(InstantTransactionStructure transaction) throws Exception {
+        try {
+            StringEntity request = new StringEntity(GsonTranslator.formatJson(transaction));
+            System.out.println(GsonTranslator.formatJson(transaction));
+            String answer = executePostRequest(request, "createInstantTransaction");
+            return GsonTranslator.getMessage(answer).getMessage();
+        } catch (Exception ex) {
+            throw new Exception("Error creando la transacción del token");
+        }
+    }
+
+    private String executePostRequest(StringEntity request, String operation) throws Exception {
         try {
             httppost = new HttpPost(url.concat(operation));
             httppost.setEntity(request);
