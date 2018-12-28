@@ -92,6 +92,17 @@ public class PostOperation {
             throw new Exception("Error creando la transacción del token");
         }
     }
+    
+    String burnToken(InstantTransactionStructure transaction) throws Exception {
+        try {
+            StringEntity request = new StringEntity(GsonTranslator.formatJson(transaction));
+            System.out.println(GsonTranslator.formatJson(transaction));
+            String answer = executePostRequest(request, "burnToken");
+            return GsonTranslator.getMessage(answer).getMessage();
+        } catch (Exception ex) {
+            throw new Exception("Error destruyendo el token token");
+        }
+    }
 
     private String executePostRequest(StringEntity request, String operation) throws Exception {
         try {

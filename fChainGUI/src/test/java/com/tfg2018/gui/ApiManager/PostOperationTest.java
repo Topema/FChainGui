@@ -96,7 +96,7 @@ public class PostOperationTest {
             assertEquals(post.getTokenInfo(check).getName(), response.getName());
         } catch (Exception ex) {
             assert (false);
-            
+
         }
     }
 
@@ -116,7 +116,7 @@ public class PostOperationTest {
             throw new Exception(ex);
         }
     }
-    
+
     @Test
     public void testGetTokenCreator() throws Exception {
         System.out.println("getTokenCreator");
@@ -133,7 +133,7 @@ public class PostOperationTest {
             throw new Exception(ex);
         }
     }
-    
+
     @Test
     public void testCreateInstantTransaction() throws Exception {
         System.out.println("Create Instant transaction test");
@@ -143,14 +143,33 @@ public class PostOperationTest {
         CreateTokenStructure newToken = new CreateTokenStructure(this.keyPair.getAddress(), params);
         try {
             Token response = post.generateToken(newToken);
-            System.out.println(this.keyPair.getAddress());
-            System.out.println(this.keyPair2.getAddress());
-            System.out.println(response.getName());
             InstantTransactionStructure transaction = new InstantTransactionStructure(keyPair.getAddress(), keyPair.getPrivkey(), keyPair2.getAddress(), response.getName());
             String responseId = post.createInstantTransaction(transaction);
             TimeUnit.SECONDS.sleep(20);
             String address = post.getTokenOwner(response.getName());
             assertEquals(address, keyPair2.getAddress());
+        } catch (Exception ex) {
+            assert (false);
+            throw new Exception(ex);
+        }
+    }
+
+    @Test
+    public void burnToken() throws Exception {
+        System.out.println("Burn Token test");
+        Map<String, String> params = new HashMap<String, String>();
+        params.put(randomString(), randomString());
+        params.put(randomString(), randomString());
+        CreateTokenStructure newToken = new CreateTokenStructure(this.keyPair.getAddress(), params);
+        
+        try {
+            Token response = post.generateToken(newToken);
+            System.out.println(response.getName());
+            InstantTransactionStructure transaction = new InstantTransactionStructure(keyPair.getAddress(), keyPair.getPrivkey(), "", response.getName());
+            String responseId = post.burnToken(transaction);
+            TimeUnit.SECONDS.sleep(20);
+            String address = post.getTokenOwner(response.getName());
+            assertEquals(address, "1XXXXXXXR8XXXXXXC4XXXXXXdzXXXXXXXJrheg");
         } catch (Exception ex) {
             assert (false);
             throw new Exception(ex);
