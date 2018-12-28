@@ -114,6 +114,23 @@ public class PostOperationTest {
             throw new Exception(ex);
         }
     }
+    
+    @Test
+    public void testGetTokenCreator() throws Exception {
+        System.out.println("getTokenCreator");
+        Map<String, String> params = new HashMap<String, String>();
+        params.put(randomString(), randomString());
+        params.put(randomString(), randomString());
+        CreateTokenStructure newToken = new CreateTokenStructure(this.keyPair.getAddress(), params);
+        try {
+            Token response = post.generateToken(newToken);
+            String address = post.getTokenCreator(response.getName());
+            assertEquals(address, keyPair.getAddress());
+        } catch (Exception ex) {
+            assert (false);
+            throw new Exception(ex);
+        }
+    }
 
     private String randomString() {
         int length = 32;

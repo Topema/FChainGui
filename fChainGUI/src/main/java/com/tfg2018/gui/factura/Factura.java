@@ -16,24 +16,55 @@ import java.util.Map;
 public class Factura {
 
     private Map<String, String> tokenParameters;
+    private Participant emisor;
+    private Participant receptor;
+    private String[] concept;
+    private String[] impuesto;
+    private ComprobanteInfo comprobante;
+    
 
     Factura(ComprobanteInfo infoComprobante, Participant emisor, Participant receptor, String[] concept, String[] impuesto) {
         this.tokenParameters = new HashMap<String, String>();
+        this.emisor = emisor;
+        this.receptor = receptor;
+        this.concept = concept;
+        this.impuesto = impuesto;
+        this.comprobante = infoComprobante;
         setFacturaInfo(infoComprobante);
         setParticipant(emisor, "emisor");
         setParticipant(receptor, "receptor");
         setConcept(concept);
         setImpuesto(impuesto);
     }
+    
+    public Participant getEmisor() {
+        return this.emisor;
+    }
+    
+    public Participant getReceptor() {
+        return this.receptor;
+    }
+    
+    public String[] getConcept(){
+        return this.concept;
+    }
+    
+    public String[] getImpuesto() {
+        return this.impuesto;
+    }
+    
+    public ComprobanteInfo getComprobante(){
+        return this.comprobante;
+    }
 
     private void setParticipant(Participant participant, String type) {
-        addTokenParameter(type + "rfc", participant.getRfc());
-        addTokenParameter(type + "nombre", cleanString(participant.getNombre()));
-        addTokenParameter(type + "codigoPostal", cleanString(participant.getLocalizacion().getCPEmisor()));
-        addTokenParameter(type + "calle", cleanString(participant.getLocalizacion().getCalleEmisor()));
-        addTokenParameter(type + "estado", cleanString(participant.getLocalizacion().getEstadoEmisor()));
-        addTokenParameter(type + "municipio", cleanString(participant.getLocalizacion().getMunicipioEmisor()));
-        addTokenParameter(type + "pais", cleanString(participant.getLocalizacion().getPaisEmisor()));
+        addTokenParameter(type + "Rfc", participant.getRfc());
+        addTokenParameter(type + "Nombre", cleanString(participant.getNombre()));
+        addTokenParameter(type + "CodigoPostal", cleanString(participant.getLocalizacion().getCPEmisor()));
+        addTokenParameter(type + "Calle", cleanString(participant.getLocalizacion().getCalleEmisor()));
+        addTokenParameter(type + "Estado", cleanString(participant.getLocalizacion().getEstadoEmisor()));
+        addTokenParameter(type + "Municipio", cleanString(participant.getLocalizacion().getMunicipioEmisor()));
+        addTokenParameter(type + "Pais", cleanString(participant.getLocalizacion().getPaisEmisor()));
     }
 
     private void setFacturaInfo(ComprobanteInfo infoComprobante) {

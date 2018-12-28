@@ -68,6 +68,18 @@ public class PostOperation {
             throw new Exception("Error obteniendo dueño del token");
         }
     }
+    
+    public String getTokenCreator(String token) throws Exception {
+        try {
+            ResponseMessage message = new ResponseMessage();
+            message.setMessage(token);
+            StringEntity request = new StringEntity(GsonTranslator.formatJson(message));
+            String answer = executePostRequest(request, "getTokenCreator");
+            return GsonTranslator.getMessage(answer).getMessage();
+        } catch (Exception ex) {
+            throw new Exception("Error obteniendo dueño del token");
+        }
+    }
 
     private String executePostRequest(StringEntity request,String operation) throws Exception {
         try {

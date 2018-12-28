@@ -36,9 +36,10 @@ public class Home extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
         invoiceConsultButton = new javax.swing.JButton();
-        myInvoicesButton = new javax.swing.JButton();
         registerInvoiceButton = new javax.swing.JButton();
+        myInvoicesButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -68,6 +69,8 @@ public class Home extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        jPanel3.setBackground(new java.awt.Color(121, 158, 178));
+
         invoiceConsultButton.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         invoiceConsultButton.setText("Consultar factura");
         invoiceConsultButton.addActionListener(new java.awt.event.ActionListener() {
@@ -76,11 +79,43 @@ public class Home extends javax.swing.JFrame {
             }
         });
 
+        registerInvoiceButton.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        registerInvoiceButton.setText("Registrar factura");
+        registerInvoiceButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                registerInvoiceButtonActionPerformed(evt);
+            }
+        });
+
         myInvoicesButton.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         myInvoicesButton.setText("Mis facturas");
 
-        registerInvoiceButton.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        registerInvoiceButton.setText("Registrar factura");
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(33, 33, 33)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(registerInvoiceButton, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(invoiceConsultButton))
+                .addContainerGap(35, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(myInvoicesButton)
+                .addGap(56, 56, 56))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(31, 31, 31)
+                .addComponent(invoiceConsultButton)
+                .addGap(30, 30, 30)
+                .addComponent(registerInvoiceButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                .addComponent(myInvoicesButton)
+                .addGap(27, 27, 27))
+        );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -88,46 +123,38 @@ public class Home extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(registerInvoiceButton, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addGap(82, 82, 82)
-                            .addComponent(invoiceConsultButton))
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addGap(102, 102, 102)
-                            .addComponent(myInvoicesButton))))
-                .addContainerGap(81, Short.MAX_VALUE))
+                .addGap(50, 50, 50)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(49, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(43, 43, 43)
-                .addComponent(invoiceConsultButton)
-                .addGap(35, 35, 35)
-                .addComponent(registerInvoiceButton)
-                .addGap(38, 38, 38)
-                .addComponent(myInvoicesButton)
-                .addContainerGap(47, Short.MAX_VALUE))
+                .addGap(27, 27, 27)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(62, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 330, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 307, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 350, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void invoiceConsultButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_invoiceConsultButtonActionPerformed
-        // TODO add your handling code here:
+
+    }//GEN-LAST:event_invoiceConsultButtonActionPerformed
+
+    private void registerInvoiceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerInvoiceButtonActionPerformed
         JFileChooser invoiceChooser = new JFileChooser();
 
         int selection = invoiceChooser.showOpenDialog(this);
@@ -137,15 +164,16 @@ public class Home extends javax.swing.JFrame {
             try {
                 InvoiceReader i = new InvoiceReader();
                 Factura invoice = i.readInvoice(file);
-                Map<String, String> parameters = invoice.getTokenParameters();
-                for (Map.Entry<String, String> entry : parameters.entrySet()) {
-                    System.out.println(entry.getKey() + "/" + entry.getValue());
-                }
+                Home homeFrame = new Home();
+                InvoiceDataShow invoiceDataFrame = new InvoiceDataShow(invoice);
+                homeFrame.setVisible(true);
+                invoiceDataFrame.setVisible(true);
+                dispose();
             } catch (Exception e) {
                 System.out.println(e);
             }
         }
-    }//GEN-LAST:event_invoiceConsultButtonActionPerformed
+    }//GEN-LAST:event_registerInvoiceButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -187,6 +215,7 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JButton myInvoicesButton;
     private javax.swing.JButton registerInvoiceButton;
     // End of variables declaration//GEN-END:variables
