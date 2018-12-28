@@ -5,6 +5,7 @@
  */
 package com.tfg2018.gui.ApiManager;
 
+import com.tfg2018.gui.RequestObjects.AddressBalance;
 import com.tfg2018.gui.RequestObjects.InstantTransactionStructure;
 import com.tfg2018.gui.RequestObjects.CreateTokenStructure;
 import com.tfg2018.gui.RequestObjects.RequestMessage;
@@ -15,6 +16,7 @@ import com.tfg2018.gui.Utils.GlobalVariables;
 import com.tfg2018.gui.Utils.GsonTranslator;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.http.HttpEntity;
@@ -82,6 +84,18 @@ public class PostOperation {
         }
     }
 
+    public List<String> getAddressBalances(String address) throws Exception {
+        try {
+            ResponseMessage message = new ResponseMessage();
+            message.setMessage(address);
+            StringEntity request = new StringEntity(GsonTranslator.formatJson(message));
+            String response = executePostRequest(request, "getAddressBalance");
+            return GsonTranslator.getAddressBalances(response);
+        } catch (Exception ex) {
+            throw new Exception("Error obteniendo los balances de la dirección");
+        }
+    }
+
     String createInstantTransaction(InstantTransactionStructure transaction) throws Exception {
         try {
             StringEntity request = new StringEntity(GsonTranslator.formatJson(transaction));
@@ -92,7 +106,7 @@ public class PostOperation {
             throw new Exception("Error creando la transacción del token");
         }
     }
-    
+
     String burnToken(InstantTransactionStructure transaction) throws Exception {
         try {
             StringEntity request = new StringEntity(GsonTranslator.formatJson(transaction));

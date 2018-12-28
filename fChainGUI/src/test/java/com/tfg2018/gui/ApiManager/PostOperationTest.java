@@ -5,6 +5,7 @@
  */
 package com.tfg2018.gui.ApiManager;
 
+import com.tfg2018.gui.RequestObjects.AddressBalance;
 import com.tfg2018.gui.RequestObjects.RequestMessage;
 import com.tfg2018.gui.RequestObjects.CreateTokenStructure;
 import com.tfg2018.gui.RequestObjects.InstantTransactionStructure;
@@ -15,6 +16,7 @@ import com.tfg2018.gui.factura.InvoiceReader;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
@@ -116,7 +118,7 @@ public class PostOperationTest {
             throw new Exception(ex);
         }
     }
-
+    
     @Test
     public void testGetTokenCreator() throws Exception {
         System.out.println("getTokenCreator");
@@ -170,6 +172,28 @@ public class PostOperationTest {
             TimeUnit.SECONDS.sleep(20);
             String address = post.getTokenOwner(response.getName());
             assertEquals(address, "1XXXXXXXR8XXXXXXC4XXXXXXdzXXXXXXXJrheg");
+        } catch (Exception ex) {
+            assert (false);
+            throw new Exception(ex);
+        }
+    }
+    
+    @Test
+        public void getAddressBalanceTest() throws Exception {
+        System.out.println("get address balances test");
+        Map<String, String> params = new HashMap<String, String>();
+        params.put(randomString(), randomString());
+        params.put(randomString(), randomString());
+        CreateTokenStructure newToken = new CreateTokenStructure(this.keyPair.getAddress(), params);
+        params.put(randomString(), randomString());
+        params.put(randomString(), randomString());
+        CreateTokenStructure newToken2 = new CreateTokenStructure(this.keyPair.getAddress(), params);
+        
+        try {
+            Token response = post.generateToken(newToken);
+            Token response2 = post.generateToken(newToken2);
+            assertEquals(post.getAddressBalances(this.keyPair.getAddress()).get(1), response.getName());
+            assertEquals(post.getAddressBalances(this.keyPair.getAddress()).get(0), response2.getName());
         } catch (Exception ex) {
             assert (false);
             throw new Exception(ex);
