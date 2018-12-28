@@ -20,6 +20,13 @@ public class KeyPair {
         public KeyPair(String privKey){
             this.privkey = privKey;
         }
+        
+        public KeyPair(String address, String pubKey, String privKey){
+            this.address = address;
+            this.pubkey = pubKey;
+            this.privkey = privKey;
+            
+        }
 	
 	public String getAddress() {
 		return address;

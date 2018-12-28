@@ -5,6 +5,7 @@
  */
 package com.tfg2018.gui.views;
 
+import com.tfg2018.gui.ResponseObject.KeyPair;
 import com.tfg2018.gui.factura.Factura;
 import com.tfg2018.gui.factura.InvoiceReader;
 import java.io.File;
@@ -17,11 +18,21 @@ import javax.swing.JFileChooser;
  */
 public class Home extends javax.swing.JFrame {
 
+    private String userName;
+    private KeyPair userKeyPair;
+    
     /**
      * Creates new form Home
      */
     public Home() {
         initComponents();
+    }
+    
+    public Home(String userName, KeyPair userKeyPair){
+        this.userName=userName;
+        this.userKeyPair=userKeyPair;
+        initComponents();
+        userNameLabel.setText(userName);
     }
 
     /**
@@ -36,6 +47,7 @@ public class Home extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        userNameLabel = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         invoiceConsultButton = new javax.swing.JButton();
         registerInvoiceButton = new javax.swing.JButton();
@@ -44,7 +56,7 @@ public class Home extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(177, 212, 229));
-        jPanel1.setPreferredSize(new java.awt.Dimension(334, 336));
+        jPanel1.setPreferredSize(new java.awt.Dimension(604, 385));
 
         jPanel2.setBackground(new java.awt.Color(18, 57, 98));
 
@@ -52,20 +64,29 @@ public class Home extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("INICIO");
 
+        userNameLabel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        userNameLabel.setForeground(new java.awt.Color(255, 255, 255));
+        userNameLabel.setIcon(new javax.swing.ImageIcon("C:\\Users\\Tomas\\Pictures\\usuario.png")); // NOI18N
+        userNameLabel.setText("userName");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(120, 120, 120)
+                .addGap(256, 256, 256)
                 .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 104, Short.MAX_VALUE)
+                .addComponent(userNameLabel)
+                .addGap(38, 38, 38))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(userNameLabel))
                 .addContainerGap())
         );
 
@@ -123,17 +144,17 @@ public class Home extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(50, 50, 50)
+                .addGap(183, 183, 183)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(49, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27)
+                .addGap(48, 48, 48)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(62, Short.MAX_VALUE))
+                .addContainerGap(70, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -144,7 +165,7 @@ public class Home extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 350, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -218,5 +239,6 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JButton myInvoicesButton;
     private javax.swing.JButton registerInvoiceButton;
+    private javax.swing.JLabel userNameLabel;
     // End of variables declaration//GEN-END:variables
 }
