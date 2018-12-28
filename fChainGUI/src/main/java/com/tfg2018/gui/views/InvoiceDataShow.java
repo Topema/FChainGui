@@ -5,11 +5,21 @@
  */
 package com.tfg2018.gui.views;
 
+import com.tfg2018.gui.ApiManager.PostOperation;
+import com.tfg2018.gui.RequestObjects.CreateTokenStructure;
+import com.tfg2018.gui.RequestObjects.InstantTransactionStructure;
+import com.tfg2018.gui.ResponseObject.KeyPair;
+import com.tfg2018.gui.ResponseObject.Token;
 import com.tfg2018.gui.factura.ComprobanteInfo;
 import com.tfg2018.gui.factura.Factura;
+import com.tfg2018.gui.factura.InvoiceReader;
 import com.tfg2018.gui.factura.Participant;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.xml.parsers.ParserConfigurationException;
 
 /**
  *
@@ -18,6 +28,8 @@ import javax.swing.JOptionPane;
 public class InvoiceDataShow extends javax.swing.JFrame {
 
     private Factura invoice;
+    private String userName;
+    private KeyPair userKeyPair;
 
     /**
      * Creates new form InvoiceDataShow
@@ -26,11 +38,14 @@ public class InvoiceDataShow extends javax.swing.JFrame {
         initComponents();
     }
 
-    public InvoiceDataShow(Factura invoice) {
+    public InvoiceDataShow(String userName, KeyPair userKeyPair, Factura invoice) {
         initComponents();
         Participant emisor = invoice.getEmisor();
         Participant receptor = invoice.getReceptor();
         this.invoice = invoice;
+        this.userName = userName;
+        this.userKeyPair = userKeyPair;
+        userNameLabel.setText(userName);
         String invoiceInfo = "*****************************EMISOR*****************************\n";
         invoiceInfo += invoiceParticipant(invoice, emisor);
         invoiceInfo += "\n****************************RECEPTOR****************************\n";
@@ -80,7 +95,6 @@ public class InvoiceDataShow extends javax.swing.JFrame {
         result += "Forma de pago --> " + comprobante.getFormaDePago() + '\n';
         result += "Lugar de expedición --> " + comprobante.getLugarExpedicion() + '\n';
         result += "Método de pago --> " + comprobante.getMetodoDePago() + '\n';
-        result += "Tipo de comprobante --> " + comprobante.getTipoDeComprobante() + '\n';
         result += "Subtotal --> " + comprobante.getSubTotal() + '\n';
         result += "Total --> " + comprobante.getTotal() + '\n';
         return result;
@@ -98,6 +112,7 @@ public class InvoiceDataShow extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        userNameLabel = new javax.swing.JLabel();
         acceptButton = new javax.swing.JButton();
         cancelButton = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
@@ -114,6 +129,11 @@ public class InvoiceDataShow extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("¿Desea registrar esta factura en FChain?");
 
+        userNameLabel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        userNameLabel.setForeground(new java.awt.Color(255, 255, 255));
+        userNameLabel.setIcon(new javax.swing.ImageIcon("C:\\Users\\Tomas\\Pictures\\usuario.png")); // NOI18N
+        userNameLabel.setText("userName");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -121,14 +141,18 @@ public class InvoiceDataShow extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(139, 139, 139)
                 .addComponent(jLabel1)
-                .addContainerGap(148, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(userNameLabel)
+                .addContainerGap(13, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(userNameLabel)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
 
         acceptButton.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -219,8 +243,20 @@ public class InvoiceDataShow extends javax.swing.JFrame {
         if (respuesta == null) {
             System.out.println("The user canceled");
         } else {
-          System.out.println(respuesta);
-          
+          PostOperation post = new PostOperation();
+          KeyPair receiver = new KeyPair(respuesta);
+            try {
+                post.validateAddress(receiver);
+                CreateTokenStructure tokenStructure = new CreateTokenStructure(this.userKeyPair.getAddress(), invoice.getTokenParameters());
+                Token createdToken = post.generateToken(tokenStructure);
+                TimeUnit.SECONDS.sleep(15);
+                InstantTransactionStructure transaction = new InstantTransactionStructure(this.userKeyPair.getAddress(), this.userKeyPair.getPrivkey(), respuesta, createdToken.getName());
+                String responseId = post.createInstantTransaction(transaction);
+                int confirmation = JOptionPane.showConfirmDialog(null, "factura registrada con éxito");
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "Ha ocurrido un error durante la ejecución de su solicitud", "ERROR", JOptionPane.WARNING_MESSAGE);
+                Logger.getLogger(InvoiceDataShow.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }//GEN-LAST:event_acceptButtonActionPerformed
 
@@ -276,5 +312,6 @@ public class InvoiceDataShow extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel userNameLabel;
     // End of variables declaration//GEN-END:variables
 }

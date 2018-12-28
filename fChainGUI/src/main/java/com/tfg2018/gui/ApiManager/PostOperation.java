@@ -96,7 +96,7 @@ public class PostOperation {
         }
     }
 
-    String createInstantTransaction(InstantTransactionStructure transaction) throws Exception {
+    public String createInstantTransaction(InstantTransactionStructure transaction) throws Exception {
         try {
             StringEntity request = new StringEntity(GsonTranslator.formatJson(transaction));
             System.out.println(GsonTranslator.formatJson(transaction));
@@ -107,7 +107,7 @@ public class PostOperation {
         }
     }
 
-    String burnToken(InstantTransactionStructure transaction) throws Exception {
+    public String burnToken(InstantTransactionStructure transaction) throws Exception {
         try {
             StringEntity request = new StringEntity(GsonTranslator.formatJson(transaction));
             System.out.println(GsonTranslator.formatJson(transaction));

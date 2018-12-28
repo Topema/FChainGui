@@ -11,6 +11,7 @@ import com.tfg2018.gui.factura.InvoiceReader;
 import java.io.File;
 import java.util.Map;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -176,6 +177,7 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_invoiceConsultButtonActionPerformed
 
     private void registerInvoiceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerInvoiceButtonActionPerformed
+        JOptionPane.showMessageDialog(null, "Por favor, tenga en cuenta que la factura debe estar en formato .xml para poder ser registrada en la cadena de bloques", "Formato de factura", JOptionPane.INFORMATION_MESSAGE);
         JFileChooser invoiceChooser = new JFileChooser();
 
         int selection = invoiceChooser.showOpenDialog(this);
@@ -186,11 +188,12 @@ public class Home extends javax.swing.JFrame {
                 InvoiceReader i = new InvoiceReader();
                 Factura invoice = i.readInvoice(file);
                 Home homeFrame = new Home();
-                InvoiceDataShow invoiceDataFrame = new InvoiceDataShow(invoice);
+                InvoiceDataShow invoiceDataFrame = new InvoiceDataShow(this.userName, this.userKeyPair, invoice);
                 homeFrame.setVisible(true);
                 invoiceDataFrame.setVisible(true);
                 dispose();
             } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Asegúrese de que la factura está en formato XML por favor", "ERROR", JOptionPane.WARNING_MESSAGE);
                 System.out.println(e);
             }
         }

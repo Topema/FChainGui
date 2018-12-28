@@ -8,20 +8,11 @@ package com.tfg2018.gui.factura;
 import com.tfg2018.gui.RequestObjects.CreateTokenStructure;
 import javax.xml.parsers.ParserConfigurationException;
 import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 import java.io.File;
 import java.io.IOException;
-import java.util.Map;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 /**
  *
