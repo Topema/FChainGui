@@ -12,14 +12,10 @@ import com.tfg2018.gui.ResponseObject.KeyPair;
 import com.tfg2018.gui.ResponseObject.Token;
 import com.tfg2018.gui.factura.ComprobanteInfo;
 import com.tfg2018.gui.factura.Factura;
-import com.tfg2018.gui.factura.InvoiceReader;
 import com.tfg2018.gui.factura.Participant;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import javax.xml.parsers.ParserConfigurationException;
 
 /**
  *

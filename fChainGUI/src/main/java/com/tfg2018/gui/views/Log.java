@@ -212,7 +212,7 @@ public class Log extends javax.swing.JFrame {
             dispose();
         }
         if (userNameTextField.getText().equals("Factor") && passwordTextField.getText().equals("asdfqwer")) {
-            Home homeFrame = new Home("Factor", GlobalVariables.receiverKeyPair);
+            Home homeFrame = new Home("Factor", GlobalVariables.FactorKeyPair);
             logFrame.setVisible(false);
             homeFrame.setVisible(true);
             dispose();

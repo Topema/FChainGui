@@ -6,10 +6,16 @@
 package com.tfg2018.gui.views;
 
 import com.tfg2018.gui.ApiManager.PostOperation;
+import com.tfg2018.gui.RequestObjects.CreateTokenStructure;
+import com.tfg2018.gui.RequestObjects.InstantTransactionStructure;
+import com.tfg2018.gui.RequestObjects.RequestMessage;
 import com.tfg2018.gui.ResponseObject.KeyPair;
+import com.tfg2018.gui.ResponseObject.Token;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -34,7 +40,7 @@ public class MyInvoices extends javax.swing.JFrame {
         userNameLabel.setText(userName);
         PostOperation post = new PostOperation();
         try {
-            List <String> myInvoices = post.getAddressBalances(this.userKeyPair.getAddress());
+            List<String> myInvoices = post.getAddressBalances(this.userKeyPair.getAddress());
             String[] myInvoicesArray = myInvoices.toArray(new String[0]);
             myInvoiceList.setListData(myInvoicesArray);
         } catch (Exception ex) {
@@ -61,7 +67,7 @@ public class MyInvoices extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         myInvoiceList = new javax.swing.JList<>();
-        jButton1 = new javax.swing.JButton();
+        TransferToken = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jPanel7 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
@@ -69,7 +75,7 @@ public class MyInvoices extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         payerAddress = new javax.swing.JTextField();
         payerName = new javax.swing.JTextField();
-        jButton3 = new javax.swing.JButton();
+        burnTokenButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -162,7 +168,12 @@ public class MyInvoices extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jButton1.setText("Transferir derecho de cobro");
+        TransferToken.setText("Transferir derecho de cobro");
+        TransferToken.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TransferTokenActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Atrás");
 
@@ -183,16 +194,16 @@ public class MyInvoices extends javax.swing.JFrame {
                     .addGroup(jPanel7Layout.createSequentialGroup()
                         .addGap(19, 19, 19)
                         .addComponent(jLabel8)
-                        .addGap(38, 38, 38))
+                        .addGap(22, 22, 22))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel11)
-                            .addComponent(jLabel10))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(payerName)
-                    .addComponent(payerAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(payerName, javax.swing.GroupLayout.DEFAULT_SIZE, 239, Short.MAX_VALUE)
+                    .addComponent(payerAddress))
                 .addContainerGap())
         );
         jPanel7Layout.setVerticalGroup(
@@ -211,7 +222,12 @@ public class MyInvoices extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jButton3.setText("Marcar factura como pagada");
+        burnTokenButton.setText("Marcar factura como pagada");
+        burnTokenButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                burnTokenButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -221,19 +237,19 @@ public class MyInvoices extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(23, 23, 23)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(139, 139, 139)
                         .addComponent(jButton2))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(89, 89, 89)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton3)
-                            .addComponent(jButton1))))
-                .addGap(46, 46, 46)
+                            .addComponent(burnTokenButton)
+                            .addComponent(TransferToken)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(23, 23, 23)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addGap(31, 31, 31)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -249,9 +265,9 @@ public class MyInvoices extends javax.swing.JFrame {
                         .addGap(31, 31, 31)
                         .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(47, 47, 47)
-                        .addComponent(jButton3)
+                        .addComponent(burnTokenButton)
                         .addGap(32, 32, 32)
-                        .addComponent(jButton1)
+                        .addComponent(TransferToken)
                         .addGap(45, 45, 45)
                         .addComponent(jButton2)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -272,8 +288,67 @@ public class MyInvoices extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void myInvoiceListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_myInvoiceListValueChanged
-        
+        try {
+            PostOperation post = new PostOperation();
+            RequestMessage request = new RequestMessage(myInvoiceList.getSelectedValue());
+            Token invoiceToken = post.getTokenInfo(request);
+            Map<String, String> tokenDetails = invoiceToken.getDetails();
+            String details = "";
+            for (Map.Entry<String, String> entry : tokenDetails.entrySet()) {
+                details += entry.getKey() + "-->" + entry.getValue() + '\n';
+            }
+            invoiceInfoTextArea.setText(details);
+            String creator = post.getTokenCreator(myInvoiceList.getSelectedValue());
+            payerAddress.setText(creator);
+            switch (payerAddress.getText()) {
+                case "1wCFwZd8qVoaKAGGmTbn5g4fvyZjKDKQv6CgE":
+                    payerName.setText("Pagador");
+                    break;
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(MyInvoices.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_myInvoiceListValueChanged
+
+    private void TransferTokenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TransferTokenActionPerformed
+        String address = JOptionPane.showInputDialog(null, "¿A quién desea transferir el derecho de cobro?");
+        if (address == null) {
+            System.out.println("The user canceled");
+        } else {
+            PostOperation post = new PostOperation();
+            KeyPair receiver = new KeyPair(address);
+            try {
+                post.validateAddress(receiver);
+                int input = JOptionPane.showConfirmDialog(null, "¿Está seguro que desea transferir el derecho de cobro de esta factura?, esta acción no se podrá deshacer", "CUIDADO", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+                if (input == 0) {
+                    InstantTransactionStructure transaction = new InstantTransactionStructure(this.userKeyPair.getAddress(), this.userKeyPair.getPrivkey(), address, myInvoiceList.getSelectedValue());
+                    String responseId = post.createInstantTransaction(transaction);
+                    int confirmation = JOptionPane.showConfirmDialog(null, "factura transferida con éxito");
+                    Home homeFrame = new Home(this.userName, this.userKeyPair);
+                    MyInvoices myInvoicesFrame = new MyInvoices();
+                    myInvoicesFrame.setVisible(false);
+                    homeFrame.setVisible(true);
+                }
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "Ha ocurrido un error durante la ejecución de su solicitud", "ERROR", JOptionPane.WARNING_MESSAGE);
+                Logger.getLogger(InvoiceDataShow.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_TransferTokenActionPerformed
+
+    private void burnTokenButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_burnTokenButtonActionPerformed
+        int input = JOptionPane.showConfirmDialog(null, "¿Está seguro que desea transferir el derecho de cobro de esta factura?, esta acción no se podrá deshacer", "CUIDADO", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+        if (input == 0) {
+            PostOperation post = new PostOperation();
+            InstantTransactionStructure transaction = new InstantTransactionStructure(this.userKeyPair.getAddress(), this.userKeyPair.getPrivkey(), "", myInvoiceList.getSelectedValue());
+            try {
+                String responseId = post.burnToken(transaction);
+            } catch (Exception ex) {
+                Logger.getLogger(MyInvoices.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+    }//GEN-LAST:event_burnTokenButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -311,10 +386,10 @@ public class MyInvoices extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton TransferToken;
+    private javax.swing.JButton burnTokenButton;
     private javax.swing.JTextArea invoiceInfoTextArea;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
