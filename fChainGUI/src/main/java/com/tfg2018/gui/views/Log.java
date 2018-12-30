@@ -6,6 +6,7 @@
 package com.tfg2018.gui.views;
 
 import com.tfg2018.gui.ResponseObject.KeyPair;
+import com.tfg2018.gui.Utils.GlobalVariables;
 
 /**
  *
@@ -197,11 +198,21 @@ public class Log extends javax.swing.JFrame {
 
     private void sesionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sesionButtonActionPerformed
         // TODO add your handling code here:
-        System.out.println(userNameTextField.getText().equals("usuario") && passwordTextField.getText().equals("usuario"));
-        if(userNameTextField.getText().equals("usuario") && passwordTextField.getText().equals("usuario")){
-            KeyPair userKeyPair = new KeyPair("usuario", "usuario", "usuario");
-            Log logFrame = new Log();
-            Home homeFrame = new Home("usuario", userKeyPair);
+        Log logFrame = new Log();
+        if (userNameTextField.getText().equals("Pagador") && passwordTextField.getText().equals("asdfqwer")) {
+            Home homeFrame = new Home("Pagador", GlobalVariables.payerKeyPair);
+            logFrame.setVisible(false);
+            homeFrame.setVisible(true);
+            dispose();
+        }
+        if (userNameTextField.getText().equals("Beneficiario") && passwordTextField.getText().equals("asdfqwer")) {
+            Home homeFrame = new Home("Beneficiario", GlobalVariables.receiverKeyPair);
+            logFrame.setVisible(false);
+            homeFrame.setVisible(true);
+            dispose();
+        }
+        if (userNameTextField.getText().equals("Factor") && passwordTextField.getText().equals("asdfqwer")) {
+            Home homeFrame = new Home("Factor", GlobalVariables.receiverKeyPair);
             logFrame.setVisible(false);
             homeFrame.setVisible(true);
             dispose();

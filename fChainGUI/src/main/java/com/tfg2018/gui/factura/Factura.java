@@ -23,7 +23,7 @@ public class Factura {
     private ComprobanteInfo comprobante;
     
 
-    Factura(ComprobanteInfo infoComprobante, Participant emisor, Participant receptor, String[] concept, String[] impuesto) {
+    public Factura(ComprobanteInfo infoComprobante, Participant emisor, Participant receptor, String[] concept, String[] impuesto) {
         this.tokenParameters = new HashMap<String, String>();
         this.emisor = emisor;
         this.receptor = receptor;

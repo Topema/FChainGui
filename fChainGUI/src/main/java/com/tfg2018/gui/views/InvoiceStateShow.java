@@ -5,17 +5,54 @@
  */
 package com.tfg2018.gui.views;
 
+import com.tfg2018.gui.ApiManager.PostOperation;
+import com.tfg2018.gui.ResponseObject.KeyPair;
+import com.tfg2018.gui.ResponseObject.Token;
+import com.tfg2018.gui.factura.Factura;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Tomas
  */
 public class InvoiceStateShow extends javax.swing.JFrame {
 
+    private String userName;
+    private KeyPair userKeyPair;
+    private Token invoice;
+
     /**
      * Creates new form InvoiceStateShow
      */
     public InvoiceStateShow() {
         initComponents();
+    }
+
+    public InvoiceStateShow(String userName, KeyPair userKeyPair, Token invoice) {
+        try {
+            initComponents();
+            this.userName = userName;
+            this.userKeyPair = userKeyPair;
+            this.invoice = invoice;
+            userNameLabel.setText(userName);
+            Map<String, String> tokenDetails = invoice.getDetails();
+            String details = "";
+            for (Map.Entry<String, String> entry : tokenDetails.entrySet()) {
+                details += entry.getKey() + "-->" + entry.getValue() + '\n';
+            }
+            PostOperation post = new PostOperation();
+            String owner = post.getTokenOwner(invoice.getName());
+            String creator = post.getTokenCreator(invoice.getName());
+            String beneficiarioInicial = post.getTokenInitialOwner(invoice.getName());
+            pagadorText.setText(creator);
+            actualBeneficiarioText.setText(owner);
+            inicialBeneficiarioText.setText(beneficiarioInicial);
+            invoiceInfoTextArea.setText(details);
+        } catch (Exception ex) {
+            Logger.getLogger(InvoiceStateShow.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -36,9 +73,9 @@ public class InvoiceStateShow extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
+        pagadorText = new javax.swing.JTextField();
+        actualBeneficiarioText = new javax.swing.JTextField();
+        inicialBeneficiarioText = new javax.swing.JTextField();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         invoiceInfoTextArea = new javax.swing.JTextArea();
@@ -96,11 +133,11 @@ public class InvoiceStateShow extends javax.swing.JFrame {
 
         jLabel3.setText("Beneficiario inicial:");
 
-        jTextField1.setEditable(false);
+        pagadorText.setEditable(false);
 
-        jTextField2.setEditable(false);
+        actualBeneficiarioText.setEditable(false);
 
-        jTextField3.setEditable(false);
+        inicialBeneficiarioText.setEditable(false);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -114,9 +151,9 @@ public class InvoiceStateShow extends javax.swing.JFrame {
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField1)
-                    .addComponent(jTextField2)
-                    .addComponent(jTextField3))
+                    .addComponent(pagadorText)
+                    .addComponent(actualBeneficiarioText)
+                    .addComponent(inicialBeneficiarioText))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -125,15 +162,15 @@ public class InvoiceStateShow extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(pagadorText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(actualBeneficiarioText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(inicialBeneficiarioText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -244,6 +281,8 @@ public class InvoiceStateShow extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel InvoiceStateLabel;
+    private javax.swing.JTextField actualBeneficiarioText;
+    private javax.swing.JTextField inicialBeneficiarioText;
     private javax.swing.JTextArea invoiceInfoTextArea;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
@@ -255,9 +294,7 @@ public class InvoiceStateShow extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField pagadorText;
     private javax.swing.JLabel userNameLabel;
     // End of variables declaration//GEN-END:variables
 }

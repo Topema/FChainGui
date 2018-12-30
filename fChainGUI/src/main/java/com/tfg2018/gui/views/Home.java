@@ -5,13 +5,18 @@
  */
 package com.tfg2018.gui.views;
 
+import com.tfg2018.gui.ApiManager.PostOperation;
+import com.tfg2018.gui.RequestObjects.CreateTokenStructure;
+import com.tfg2018.gui.RequestObjects.RequestMessage;
 import com.tfg2018.gui.ResponseObject.KeyPair;
+import com.tfg2018.gui.ResponseObject.Token;
 import com.tfg2018.gui.factura.Factura;
 import com.tfg2018.gui.factura.InvoiceReader;
 import java.io.File;
 import java.util.Map;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -21,17 +26,17 @@ public class Home extends javax.swing.JFrame {
 
     private String userName;
     private KeyPair userKeyPair;
-    
+
     /**
      * Creates new form Home
      */
     public Home() {
         initComponents();
     }
-    
-    public Home(String userName, KeyPair userKeyPair){
-        this.userName=userName;
-        this.userKeyPair=userKeyPair;
+
+    public Home(String userName, KeyPair userKeyPair) {
+        this.userName = userName;
+        this.userKeyPair = userKeyPair;
         initComponents();
         userNameLabel.setText(userName);
     }
@@ -111,6 +116,11 @@ public class Home extends javax.swing.JFrame {
 
         myInvoicesButton.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         myInvoicesButton.setText("Mis facturas");
+        myInvoicesButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                myInvoicesButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -173,12 +183,12 @@ public class Home extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void invoiceConsultButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_invoiceConsultButtonActionPerformed
-
-    }//GEN-LAST:event_invoiceConsultButtonActionPerformed
-
-    private void registerInvoiceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerInvoiceButtonActionPerformed
-        JOptionPane.showMessageDialog(null, "Por favor, tenga en cuenta que la factura debe estar en formato .xml para poder ser registrada en la cadena de bloques", "Formato de factura", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null, "Por favor, tenga en cuenta que la factura debe estar en formato .xml para poder ser consultada", "Formato de factura", JOptionPane.INFORMATION_MESSAGE);
         JFileChooser invoiceChooser = new JFileChooser();
+        FileNameExtensionFilter xmlfilter = new FileNameExtensionFilter(
+                "xml files (*.xml)", "xml");
+        invoiceChooser.setDialogTitle("Por favor seleccione la factura");
+        invoiceChooser.setFileFilter(xmlfilter);
 
         int selection = invoiceChooser.showOpenDialog(this);
 
@@ -187,9 +197,38 @@ public class Home extends javax.swing.JFrame {
             try {
                 InvoiceReader i = new InvoiceReader();
                 Factura invoice = i.readInvoice(file);
+                PostOperation post = new PostOperation();
+                CreateTokenStructure requestToken = new CreateTokenStructure("", invoice.getTokenParameters());
+                RequestMessage request = new RequestMessage(requestToken.getTokenName());
+                Token invoiceToken = post.getTokenInfo(request);
+                Home homeFrame = new Home();
+                InvoiceStateShow invoiceStateShow = new InvoiceStateShow(this.userName, this.userKeyPair, invoiceToken);
+                homeFrame.setVisible(false);
+                invoiceStateShow.setVisible(true);
+                dispose();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Asegúrese de que la factura está en formato XML por favor", "ERROR", JOptionPane.WARNING_MESSAGE);
+                System.out.println(e);
+            }
+        }
+    }//GEN-LAST:event_invoiceConsultButtonActionPerformed
+
+    private void registerInvoiceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerInvoiceButtonActionPerformed
+        JOptionPane.showMessageDialog(null, "Por favor, tenga en cuenta que la factura debe estar en formato .xml para poder ser registrada en la cadena de bloques", "Formato de factura", JOptionPane.INFORMATION_MESSAGE);
+        JFileChooser invoiceChooser = new JFileChooser();
+        FileNameExtensionFilter xmlfilter = new FileNameExtensionFilter(
+                "xml files (*.xml)", "xml");
+        invoiceChooser.setDialogTitle("Por favor seleccione la factura");
+        invoiceChooser.setFileFilter(xmlfilter);
+        int selection = invoiceChooser.showOpenDialog(this);
+        if (selection == JFileChooser.APPROVE_OPTION) {
+            File file = invoiceChooser.getSelectedFile();
+            try {
+                InvoiceReader i = new InvoiceReader();
+                Factura invoice = i.readInvoice(file);
                 Home homeFrame = new Home();
                 InvoiceDataShow invoiceDataFrame = new InvoiceDataShow(this.userName, this.userKeyPair, invoice);
-                homeFrame.setVisible(true);
+                homeFrame.setVisible(false);
                 invoiceDataFrame.setVisible(true);
                 dispose();
             } catch (Exception e) {
@@ -198,6 +237,14 @@ public class Home extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_registerInvoiceButtonActionPerformed
+
+    private void myInvoicesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myInvoicesButtonActionPerformed
+        Home homeFrame = new Home();
+        MyInvoices myInvoicesFrame = new MyInvoices(this.userName, this.userKeyPair);
+        homeFrame.setVisible(false);
+        myInvoicesFrame.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_myInvoicesButtonActionPerformed
 
     /**
      * @param args the command line arguments

@@ -5,7 +5,6 @@
  */
 package com.tfg2018.gui.ApiManager;
 
-import com.tfg2018.gui.RequestObjects.AddressBalance;
 import com.tfg2018.gui.RequestObjects.RequestMessage;
 import com.tfg2018.gui.RequestObjects.CreateTokenStructure;
 import com.tfg2018.gui.RequestObjects.InstantTransactionStructure;
@@ -14,14 +13,10 @@ import com.tfg2018.gui.ResponseObject.Token;
 import com.tfg2018.gui.factura.Factura;
 import com.tfg2018.gui.factura.InvoiceReader;
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import org.junit.After;
 import org.junit.AfterClass;

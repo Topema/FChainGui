@@ -83,6 +83,18 @@ public class PostOperation {
             throw new Exception("Error obteniendo al creador del token");
         }
     }
+    
+    public String getTokenInitialOwner(String token) throws Exception {
+        try {
+            ResponseMessage message = new ResponseMessage();
+            message.setMessage(token);
+            StringEntity request = new StringEntity(GsonTranslator.formatJson(message));
+            String answer = executePostRequest(request, "getInitialTokenOwner");
+            return GsonTranslator.getMessage(answer).getMessage();
+        } catch (Exception ex) {
+            throw new Exception("Error obteniendo al creador del token");
+        }
+    }
 
     public List<String> getAddressBalances(String address) throws Exception {
         try {

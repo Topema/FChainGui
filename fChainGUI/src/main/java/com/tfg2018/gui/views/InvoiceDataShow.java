@@ -139,19 +139,19 @@ public class InvoiceDataShow extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(139, 139, 139)
+                .addGap(131, 131, 131)
                 .addComponent(jLabel1)
-                .addGap(18, 18, 18)
+                .addGap(26, 26, 26)
                 .addComponent(userNameLabel)
                 .addContainerGap(13, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(userNameLabel)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(17, 17, 17)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(userNameLabel))
                 .addContainerGap(14, Short.MAX_VALUE))
         );
 
@@ -249,10 +249,13 @@ public class InvoiceDataShow extends javax.swing.JFrame {
                 post.validateAddress(receiver);
                 CreateTokenStructure tokenStructure = new CreateTokenStructure(this.userKeyPair.getAddress(), invoice.getTokenParameters());
                 Token createdToken = post.generateToken(tokenStructure);
-                TimeUnit.SECONDS.sleep(15);
                 InstantTransactionStructure transaction = new InstantTransactionStructure(this.userKeyPair.getAddress(), this.userKeyPair.getPrivkey(), respuesta, createdToken.getName());
                 String responseId = post.createInstantTransaction(transaction);
                 int confirmation = JOptionPane.showConfirmDialog(null, "factura registrada con éxito");
+                Home homeFrame = new Home(this.userName, this.userKeyPair);
+                InvoiceDataShow invoiceDataFrame = new InvoiceDataShow();
+                invoiceDataFrame.setVisible(false);
+                homeFrame.setVisible(true);
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, "Ha ocurrido un error durante la ejecución de su solicitud", "ERROR", JOptionPane.WARNING_MESSAGE);
                 Logger.getLogger(InvoiceDataShow.class.getName()).log(Level.SEVERE, null, ex);
@@ -261,7 +264,7 @@ public class InvoiceDataShow extends javax.swing.JFrame {
     }//GEN-LAST:event_acceptButtonActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
-        Home homeFrame = new Home();
+        Home homeFrame = new Home(this.userName, this.userKeyPair);
         InvoiceDataShow dataFrame = new InvoiceDataShow();
         dataFrame.setVisible(false);
         homeFrame.setVisible(true);
