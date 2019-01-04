@@ -16,11 +16,11 @@ import java.util.Map;
 public class Factura {
 
     private Map<String, String> tokenParameters;
-    private Participant emisor;
-    private Participant receptor;
-    private String[] concept;
-    private String[] impuesto;
-    private ComprobanteInfo comprobante;
+    private final Participant emisor;
+    private final Participant receptor;
+    private final String[] concept;
+    private final String[] impuesto;
+    private final ComprobanteInfo comprobante;
     
 
     public Factura(ComprobanteInfo infoComprobante, Participant emisor, Participant receptor, String[] concept, String[] impuesto) {

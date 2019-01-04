@@ -31,7 +31,7 @@ public class InvoiceReader {
     }
 
     public Factura readInvoice(File archivo) throws ParserConfigurationException, SAXException, IOException {
-        Document document = documentBuilder.parse(archivo);
+        Document document = this.documentBuilder.parse(archivo);
         document.getDocumentElement().normalize();
 
         ComprobanteInfo infoComprobante = getComprobanteInfo(document);

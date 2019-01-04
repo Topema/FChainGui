@@ -18,7 +18,7 @@ import org.bouncycastle.util.encoders.Hex;
  *
  * @author Tomas
  */
-public class CreateTokenStructure {
+public final class CreateTokenStructure {
 
     private String address;
     private String tokenName;

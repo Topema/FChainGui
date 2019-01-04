@@ -108,7 +108,9 @@ public class InvoiceDataShow extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        jPanel9 = new javax.swing.JPanel();
         userNameLabel = new javax.swing.JLabel();
+        logOutButton = new javax.swing.JLabel();
         acceptButton = new javax.swing.JButton();
         cancelButton = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
@@ -121,37 +123,63 @@ public class InvoiceDataShow extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(18, 57, 98));
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("¿Desea registrar esta factura en FChain?");
+        jLabel1.setText("Registro de factura");
 
+        jPanel9.setBackground(new java.awt.Color(121, 158, 178));
+        jPanel9.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        userNameLabel.setBackground(new java.awt.Color(121, 158, 178));
         userNameLabel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         userNameLabel.setForeground(new java.awt.Color(255, 255, 255));
         userNameLabel.setIcon(new javax.swing.ImageIcon("C:\\Users\\Tomas\\Pictures\\usuario.png")); // NOI18N
-        userNameLabel.setText("userName");
+        userNameLabel.setText("Bonny SA");
+
+        logOutButton.setIcon(new javax.swing.ImageIcon("C:\\Users\\Tomas\\Pictures\\logout.png")); // NOI18N
+        logOutButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                logOutButtonMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
+        jPanel9.setLayout(jPanel9Layout);
+        jPanel9Layout.setHorizontalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
+                .addComponent(logOutButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(userNameLabel)
+                .addContainerGap(18, Short.MAX_VALUE))
+        );
+        jPanel9Layout.setVerticalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(logOutButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(userNameLabel)
+        );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(131, 131, 131)
+                .addContainerGap(350, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addGap(26, 26, 26)
-                .addComponent(userNameLabel)
-                .addContainerGap(13, Short.MAX_VALUE))
+                .addGap(191, 191, 191)
+                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(17, 17, 17)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(userNameLabel))
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addContainerGap(14, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
-        acceptButton.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        acceptButton.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         acceptButton.setText("Registrar Factura");
         acceptButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -159,7 +187,7 @@ public class InvoiceDataShow extends javax.swing.JFrame {
             }
         });
 
-        cancelButton.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        cancelButton.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         cancelButton.setText("Cancelar");
         cancelButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -171,7 +199,9 @@ public class InvoiceDataShow extends javax.swing.JFrame {
 
         invoiceInfoTextArea.setEditable(false);
         invoiceInfoTextArea.setColumns(20);
+        invoiceInfoTextArea.setFont(new java.awt.Font("Monospaced", 0, 14)); // NOI18N
         invoiceInfoTextArea.setRows(5);
+        invoiceInfoTextArea.setText("Estado --> MEXICO, D.F.\nMunicipio --> BENITO JUAREZ\nCódigo Postal --> 03240\nCalle --> AV. RIO MIXCOAC\n\n****************************RECEPTOR****************************\nNombre --> JUAN PEREZ PEREZ\nRfc --> PEPJ8001019Q8\nPaís --> Mexico\nEstado --> DISTRITO FEDERAL\nMunicipio --> COYOACAN\nCódigo Postal --> 04365\nCalle --> AV UNIVERSIDAD\n\n****************************CONCEPTO****************************\nconcepto 1 -->  unidad-> CAPSULAS, importe-> 244.00, cantidad-> 1.0, descripcion-> VIBRAMICINA 100MG 10, valorUnitario-> 244.00\nconcepto 2 -->  unidad-> BOTELLA, importe-> 137.93, cantidad-> 1.0, descripcion-> CLORUTO 500M, valorUnitario-> 137.93\nconcepto 3 -->  unidad-> TABLETAS, importe-> 84.50, cantidad-> 1.0, descripcion-> SEDEPRON 250MG 10, valorUnitario-> 84.50\n\n*****************************TASAS******************************\nimpuesto 1 --> tasa-> 0.00, importe-> 0.00, impuesto-> IVA\nimpuesto 2 --> tasa-> 16.00, importe-> 22.07, impuesto-> IVA\n\n*****************************INFO*******************************\nFecha de expedición --> 2012-01-01T20:38:12\nForma de pago --> PAGO EN UNA SOLA EXHIBICION\nLugar de expedición --> Mexico\nMétodo de pago --> cheque\nSubtotal --> 488.50\nTotal --> 488.50\n");
         jScrollPane1.setViewportView(invoiceInfoTextArea);
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
@@ -201,17 +231,17 @@ public class InvoiceDataShow extends javax.swing.JFrame {
                 .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(24, 24, 24)
+                .addGap(44, 44, 44)
                 .addComponent(acceptButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(cancelButton)
-                .addGap(53, 53, 53))
+                .addGap(44, 44, 44))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -224,7 +254,7 @@ public class InvoiceDataShow extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -266,6 +296,14 @@ public class InvoiceDataShow extends javax.swing.JFrame {
         homeFrame.setVisible(true);
         dispose();
     }//GEN-LAST:event_cancelButtonActionPerformed
+
+    private void logOutButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logOutButtonMouseClicked
+        Log logFrame = new Log();
+        Home homeFrame = new Home();
+        logFrame.setVisible(true);
+        homeFrame.setVisible(false);
+        dispose();
+    }//GEN-LAST:event_logOutButtonMouseClicked
 
     /**
      * @param args the command line arguments
@@ -310,7 +348,9 @@ public class InvoiceDataShow extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel logOutButton;
     private javax.swing.JLabel userNameLabel;
     // End of variables declaration//GEN-END:variables
 }

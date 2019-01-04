@@ -47,22 +47,6 @@ public class PostOperationTest {
         }
     }
 
-    @BeforeClass
-    public static void setUpClass() {
-    }
-
-    @AfterClass
-    public static void tearDownClass() {
-    }
-
-    @Before
-    public void setUp() {
-    }
-
-    @After
-    public void tearDown() {
-    }
-
     /**
      * Test of validateAddress method, of class PostOperation.
      */
@@ -89,8 +73,7 @@ public class PostOperationTest {
         CreateTokenStructure newToken = new CreateTokenStructure(this.keyPair.getAddress(), result.getTokenParameters());
         try {
             Token response = post.generateToken(newToken);
-            RequestMessage check = new RequestMessage(response.getName());
-            assertEquals(post.getTokenInfo(check).getName(), response.getName());
+            assertEquals(get.getTokenInfo(response.getName()).getName(), response.getName());
         } catch (Exception ex) {
             assert (false);
 
@@ -106,7 +89,7 @@ public class PostOperationTest {
         CreateTokenStructure newToken = new CreateTokenStructure(this.keyPair.getAddress(), params);
         try {
             Token response = post.generateToken(newToken);
-            String address = post.getTokenOwner(response.getName());
+            String address = get.getTokenOwner(response.getName());
             assertEquals(address, keyPair.getAddress());
         } catch (Exception ex) {
             assert (false);
@@ -123,7 +106,7 @@ public class PostOperationTest {
         CreateTokenStructure newToken = new CreateTokenStructure(this.keyPair.getAddress(), params);
         try {
             Token response = post.generateToken(newToken);
-            String address = post.getTokenCreator(response.getName());
+            String address = get.getTokenCreator(response.getName());
             assertEquals(address, keyPair.getAddress());
         } catch (Exception ex) {
             assert (false);
@@ -143,7 +126,7 @@ public class PostOperationTest {
             InstantTransactionStructure transaction = new InstantTransactionStructure(keyPair.getAddress(), keyPair.getPrivkey(), keyPair2.getAddress(), response.getName());
             String responseId = post.createInstantTransaction(transaction);
             TimeUnit.SECONDS.sleep(20);
-            String address = post.getTokenOwner(response.getName());
+            String address = get.getTokenOwner(response.getName());
             assertEquals(address, keyPair2.getAddress());
         } catch (Exception ex) {
             assert (false);
@@ -165,7 +148,7 @@ public class PostOperationTest {
             InstantTransactionStructure transaction = new InstantTransactionStructure(keyPair.getAddress(), keyPair.getPrivkey(), "", response.getName());
             String responseId = post.burnToken(transaction);
             TimeUnit.SECONDS.sleep(20);
-            String address = post.getTokenOwner(response.getName());
+            String address = get.getTokenOwner(response.getName());
             assertEquals(address, "1XXXXXXXR8XXXXXXC4XXXXXXdzXXXXXXXJrheg");
         } catch (Exception ex) {
             assert (false);
@@ -187,8 +170,8 @@ public class PostOperationTest {
         try {
             Token response = post.generateToken(newToken);
             Token response2 = post.generateToken(newToken2);
-            assertEquals(post.getAddressBalances(this.keyPair.getAddress()).get(1), response.getName());
-            assertEquals(post.getAddressBalances(this.keyPair.getAddress()).get(0), response2.getName());
+            assertEquals(get.getAddressBalances(this.keyPair.getAddress()).get(1), response.getName());
+            assertEquals(get.getAddressBalances(this.keyPair.getAddress()).get(0), response2.getName());
         } catch (Exception ex) {
             assert (false);
             throw new Exception(ex);
